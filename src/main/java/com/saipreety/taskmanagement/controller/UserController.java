@@ -1,5 +1,7 @@
 package com.saipreety.taskmanagement.controller;
 
+import com.saipreety.taskmanagement.dto.UserRequestDTO;
+import com.saipreety.taskmanagement.dto.UserResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,21 +20,31 @@ public class UserController {
 	private UserService service;
 
 	@PostMapping("/create")
-	public ResponseEntity<Object> create(@Valid @RequestBody UserEntity user) {
-	    System.out.println(user.getFullName());
-	    System.out.println(user.getEmail());
-	    System.out.println(user.getPassword());
-		return service.createUser(user);
+	public UserResponseDTO create(@Valid @RequestBody UserRequestDTO request){
+		return service.createUser(request);
 	}
 
+//	@PostMapping("/create")
+//	public ResponseEntity<Object> create(@Valid @RequestBody UserEntity user) {
+//	    System.out.println(user.getFullName());
+//	    System.out.println(user.getEmail());
+//	    System.out.println(user.getPassword());
+//		return service.createUser(user);
+//	}
+
+//	@GetMapping("/fetch")
+//	public ResponseEntity<Object> getAllUser(){
+//		return service.getUsers();
+//	}
+
 	@GetMapping("/fetch")
-	public ResponseEntity<Object> getAllUser(){
-		return service.getUsers();
+	public List<UserResponseDTO> getAllUsers(){
+		return service.getAllUsers();
 	}
 
 	@GetMapping("/fetch/{id}")
-	public ResponseEntity<Object> getById(@PathVariable Long id){
-		return service.getById(id);
+	public UserResponseDTO getById(@PathVariable Long id){
+		return service.getUserById(id);
 	}
 
 	@PutMapping("/update/{id}")
