@@ -11,7 +11,7 @@ public interface UserService {
 
 	UserResponseDTO createUser(UserRequestDTO request);
 	List<UserResponseDTO> getAllUsers();
-	ResponseEntity<Object> updateUser(UserEntity user, Long id);
+	UserResponseDTO updateUser(Long id, UserRequestDTO request);
 	ResponseEntity<Object> deleteUser(Long id);
 	UserResponseDTO getUserById(Long id);
 }

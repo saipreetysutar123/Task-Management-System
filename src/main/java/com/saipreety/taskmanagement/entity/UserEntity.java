@@ -33,9 +33,9 @@ public class UserEntity {
 	@Column(nullable = false)
 	private String fullName;
 
-	@Email(message = "Give a proper email address")
 	@NotBlank
 	@Column(nullable = false, unique = true)
+	@Email(message = "Give a proper email address")
 	private String email;
 
 	@Size(min = 8, message = "Password should be of minimum 8 characters")

@@ -1,0 +1,180 @@
+🚀 Task Management System - Sprint Roadmap
+✅ Sprint 1 - User CRUD Foundation (Completed)
+Entity
+ -Create UserEntity
+ -Add JPA annotations
+ -Add validation annotations
+ -Add Role enum
+ -Configure auto-generated ID
+Repository
+ -Create UserRepository
+ -Extend JpaRepository
+Service Layer
+ -Create UserService interface
+ -Create UserServiceImpl
+Controller
+ -Create UserController
+CRUD APIs
+ -Create User
+ -Get All Users
+ -Get User By ID
+ -Update User
+ -Delete User
+Testing
+ -Test APIs using Postman
+ -Push project to GitHub
+✅ Sprint 2 - DTO & Clean Architecture (Completed)
+DTOs
+ -UserRequestDTO
+ -UserResponseDTO
+Mapping
+ -RequestDTO → Entity
+ -Entity → ResponseDTO
+Update APIs
+ -Create API using DTOs
+ -Get All API using DTOs
+ -Get By ID API using DTOs
+ -Update API using DTOs
+ -Delete API
+HTTP Responses
+ -Learn ResponseEntity
+ -Return proper HTTP status codes
+📅 Sprint 3 - Code Refactoring & Exception Handling
+Refactoring
+ -Create mapToResponse(UserEntity user) helper method
+ -Remove duplicate DTO mapping code
+ -Improve code readability
+Validation
+ -Add @Valid
+ -Handle validation errors properly
+Exception Handling
+ -Create UserNotFoundException
+ -Learn throw
+ -Create GlobalExceptionHandler
+ -Learn @ControllerAdvice
+ -Remove all return null
+Dependency Injection
+ -Learn Constructor Injection
+ -Replace field injection (@Autowired)
+📅 Sprint 4 - Project Module
+Entity
+ -ProjectEntity
+DTO
+ -ProjectRequestDTO
+ -ProjectResponseDTO
+Repository
+ -ProjectRepository
+Service
+ -ProjectService
+ -ProjectServiceImpl
+Controller
+ -ProjectController
+CRUD APIs
+ -Create Project
+ -Get All Projects
+ -Get Project By ID
+ -Update Project
+ -Delete Project
+📅 Sprint 5 - Task Module
+Entity
+ -TaskEntity
+DTO
+ -TaskRequestDTO
+ -TaskResponseDTO
+CRUD APIs
+ -Create Task
+ -Get Tasks
+ -Get Task By ID
+ -Update Task
+ -Delete Task
+Features
+ -Task Status
+ -Priority
+ -Due Date
+📅 Sprint 6 - Relationships
+JPA Relationships
+ -User → Projects (One-to-Many)
+ -Project → Tasks (One-to-Many)
+ -Task → User (Many-to-One)
+Learn
+ -@OneToMany
+ -@ManyToOne
+ -@JoinColumn
+ -FetchType
+ -CascadeType
+📅 Sprint 7 - Authentication & Security
+Spring Security
+ -Spring Security Basics
+ -Password Encryption (BCrypt)
+ -Login API
+ -Register API
+JWT
+ -Generate JWT Token
+ -Validate Token
+ -Secure APIs
+Authorization
+ -USER Role
+ -ADMIN Role
+📅 Sprint 8 - Advanced Features
+Search & Filter
+ -Search Tasks
+ -Filter by Status
+ -Filter by Priority
+Pagination & Sorting
+ -Pagination
+ -Sorting
+ -Custom Queries
+📅 Sprint 9 - Documentation & Testing
+Swagger
+ -OpenAPI Configuration
+ -Swagger UI
+Testing
+ -Unit Testing
+ -Integration Testing
+📅 Sprint 10 - Deployment
+Database
+ -MySQL Production Configuration
+Deployment
+ -Deploy Backend (Render/Railway)
+Documentation
+ -README.md
+ -API Documentation
+ -Project Screenshots
+
+
+🎯 Final Project Features
+ User Registration
+ User Login (JWT)
+ Role-Based Authorization
+ Project Management
+ Task Management
+ Task Assignment
+ Due Dates
+ Task Priority
+ Task Status
+ Search
+ Filtering
+ Pagination
+ Swagger Documentation
+ Global Exception Handling
+ Validation
+ Professional README
+ GitHub Repository
+ Deployment
+🏆 Goal
+
+By the end of these sprints, you'll have a production-style Task Management System that demonstrates:
+
+Clean layered architecture
+REST API design
+DTO pattern
+JPA & Hibernate
+Spring Security + JWT
+Exception handling
+Validation
+Database relationships
+Pagination & filtering
+API documentation
+Deployment
+
+This is a strong portfolio project and covers many of the topics commonly discussed in Spring Boot interviews for freshers. We'll continue following this roadmap one sprint at a time so that every concept is understood before moving to the next.

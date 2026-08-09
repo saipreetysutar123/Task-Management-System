@@ -4,6 +4,7 @@ import com.saipreety.taskmanagement.dto.UserRequestDTO;
 import com.saipreety.taskmanagement.dto.UserResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +21,42 @@ public class UserController {
 	private UserService service;
 
 	@PostMapping("/create")
-	public UserResponseDTO create(@Valid @RequestBody UserRequestDTO request){
-		return service.createUser(request);
+	public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody UserRequestDTO request){
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(request));
 	}
 
+	@GetMapping("/fetch")
+	public List<UserResponseDTO> getAllUsers(){
+		return service.getAllUsers();
+	}
+
+	@GetMapping("/fetch/{id}")
+	public ResponseEntity<UserResponseDTO> getById(@PathVariable Long id){
+		UserResponseDTO response = service.getUserById(id);
+		if(response != null){
+			return ResponseEntity.ok(response);
+		}
+		else{
+		 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		 }
+	}
+
+	@PutMapping("/update/{id}")
+	public ResponseEntity<UserResponseDTO> update(@Valid @RequestBody UserRequestDTO request, @PathVariable Long id){
+		UserResponseDTO response = service.updateUser(id, request);
+		if(response != null){
+			return ResponseEntity.ok(response);
+		}
+		else{
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<Object> delete(UserEntity user, @PathVariable Long id){
+		return service.deleteUser(id);
+	}
+}
 //	@PostMapping("/create")
 //	public ResponseEntity<Object> create(@Valid @RequestBody UserEntity user) {
 //	    System.out.println(user.getFullName());
@@ -36,24 +69,3 @@ public class UserController {
 //	public ResponseEntity<Object> getAllUser(){
 //		return service.getUsers();
 //	}
-
-	@GetMapping("/fetch")
-	public List<UserResponseDTO> getAllUsers(){
-		return service.getAllUsers();
-	}
-
-	@GetMapping("/fetch/{id}")
-	public UserResponseDTO getById(@PathVariable Long id){
-		return service.getUserById(id);
-	}
-
-	@PutMapping("/update/{id}")
-	public ResponseEntity<Object> update(@RequestBody UserEntity user, @PathVariable Long id){
-		return service.updateUser(user, id);
-	}
-
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Object> delete(UserEntity user, @PathVariable Long id){
-		return service.deleteUser(id);
-	}
-}
