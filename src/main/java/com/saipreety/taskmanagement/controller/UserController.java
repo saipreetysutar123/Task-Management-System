@@ -25,9 +25,9 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(request));
 	}
 
-	@GetMapping("/fetch")
-	public List<UserResponseDTO> getAllUsers(){
-		return service.getAllUsers();
+	@GetMapping("/fetchAll")
+	public ResponseEntity<List<UserResponseDTO>> getAllUsers(){
+		return ResponseEntity.status(HttpStatus.OK).body(service.getAllUsers());
 	}
 
 	@GetMapping("/fetch/{id}")
