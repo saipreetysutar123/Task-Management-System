@@ -39,7 +39,7 @@ Update APIs
 HTTP Responses
  -Learn ResponseEntity
  -Return proper HTTP status codes
-📅 Sprint 3 - Code Refactoring & Exception Handling
+✅ Sprint 3 - Code Refactoring & Exception Handling
 Refactoring
  -Create mapToResponse(UserEntity user) helper method
  -Remove duplicate DTO mapping code
@@ -56,7 +56,7 @@ Exception Handling
 Dependency Injection
  -Learn Constructor Injection
  -Replace field injection (@Autowired)
-📅 Sprint 4 - Project Module
+✅ Sprint 4 - Project Module
 Entity
  -ProjectEntity
 DTO
@@ -75,7 +75,7 @@ CRUD APIs
  -Get Project By ID
  -Update Project
  -Delete Project
-📅 Sprint 5 - Task Module
+✅ Sprint 5 - Task Module
 Entity
  -TaskEntity
 DTO

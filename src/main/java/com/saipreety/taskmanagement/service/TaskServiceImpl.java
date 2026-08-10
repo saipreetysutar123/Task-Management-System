@@ -1,0 +1,120 @@
+package com.saipreety.taskmanagement.service;
+
+import com.saipreety.taskmanagement.dto.TaskRequestDTO;
+import com.saipreety.taskmanagement.dto.TaskResponseDTO;
+import com.saipreety.taskmanagement.entity.ProjectEntity;
+import com.saipreety.taskmanagement.entity.TaskEntity;
+import com.saipreety.taskmanagement.entity.UserEntity;
+import com.saipreety.taskmanagement.exception.ProjectNotFoundException;
+import com.saipreety.taskmanagement.exception.TaskNotFoundException;
+import com.saipreety.taskmanagement.exception.UserNotFoundException;
+import com.saipreety.taskmanagement.repository.ProjectRepository;
+import com.saipreety.taskmanagement.repository.TaskRepository;
+import com.saipreety.taskmanagement.repository.UserRepository;
+import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class TaskServiceImpl implements TaskService {
+
+    private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
+    private final ProjectRepository projectRepository;
+
+    public TaskServiceImpl(
+            TaskRepository taskRepository,
+            UserRepository userRepository,
+            ProjectRepository projectRepository
+    ){
+        this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
+        this.projectRepository = projectRepository;
+    }
+
+    private TaskResponseDTO mapToResponse(TaskEntity task){
+        TaskResponseDTO response = new TaskResponseDTO();
+        response.setId(task.getId());
+        response.setTitle(task.getTitle());
+        response.setDescription(task.getDescription());
+        response.setStatus(task.getStatus());
+        response.setPriority(task.getPriority());
+        response.setDueDate(task.getDueDate());
+        response.setCreatedAt(task.getCreatedAt());
+        response.setUserId(task.getUser().getId());
+        response.setProjectId(task.getProject().getId());
+        return response;
+    }
+
+    public TaskResponseDTO createTask(TaskRequestDTO request){
+        TaskEntity task = new TaskEntity();
+        UserEntity user = userRepository.findById(request.getUserId()).orElseThrow(() -> new UserNotFoundException("User not found with this id: " + request.getUserId()));
+        task.setUser(user);
+        ProjectEntity project = projectRepository.findById(request.getProjectId()).orElseThrow(() -> new ProjectNotFoundException("Project not found with this id: "+ request.getProjectId()));
+        task.setProject(project);
+        task.setTitle(request.getTitle());
+        task.setDescription(request.getDescription());
+        task.setStatus(request.getStatus());
+        task.setPriority(request.getPriority());
+        task.setDueDate(request.getDueDate());
+        task.setCreatedAt(LocalDateTime.now());
+        TaskEntity savedTask = taskRepository.save(task);
+        return mapToResponse(savedTask);
+    }
+
+    public List<TaskResponseDTO> getAllTasks(){
+        List<TaskEntity> tasks = taskRepository.findAll();
+        List<TaskResponseDTO> responseList = new ArrayList<>();
+        for (TaskEntity task : tasks) {
+            responseList.add(mapToResponse(task));
+        }
+        return responseList;
+    }
+
+    public TaskResponseDTO getTaskById(Long id){
+        Optional<TaskEntity> optionalTask = taskRepository.findById(id);
+        if(optionalTask.isPresent()){
+            TaskEntity task = optionalTask.get();
+            return mapToResponse(task);
+        } else {
+            throw new TaskNotFoundException("Task not found with id: " + id);
+        }
+    }
+
+    public TaskResponseDTO updateTask(TaskRequestDTO request, Long id){
+        Optional<TaskEntity> optionalTask = taskRepository.findById(id);
+        if(optionalTask.isPresent()){
+            TaskEntity task = optionalTask.get();
+            UserEntity user = userRepository.findById(request.getUserId()).orElseThrow(() -> new UserNotFoundException("User not found with this id: " + request.getUserId()));
+            task.setUser(user);
+            ProjectEntity project = projectRepository.findById(request.getProjectId()).orElseThrow(() -> new ProjectNotFoundException("Project not found with this id: "+ request.getProjectId()));
+            task.setProject(project);
+            task.setTitle(request.getTitle());
+            task.setDescription(request.getDescription());
+            task.setStatus(request.getStatus());
+            task.setPriority(request.getPriority());
+            task.setDueDate(request.getDueDate());
+
+            TaskEntity savedTask = taskRepository.save(task);
+
+            return mapToResponse(savedTask);
+        }
+        else {
+            throw new TaskNotFoundException("Task not found with id: " + id);
+        }
+    }
+
+    public void deleteTask(Long id){
+        Optional<TaskEntity> taskId = taskRepository.findById(id);
+        if(taskId.isPresent()){
+            taskRepository.deleteById(id);
+        }
+        else {
+            throw new TaskNotFoundException(
+                    "Task not found with id: " + id
+            );
+        }
+    }
+}
