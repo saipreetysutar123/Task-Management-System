@@ -2,6 +2,8 @@ package com.saipreety.taskmanagement.controller;
 
 import com.saipreety.taskmanagement.dto.TaskRequestDTO;
 import com.saipreety.taskmanagement.dto.TaskResponseDTO;
+import com.saipreety.taskmanagement.entity.TaskPriority;
+import com.saipreety.taskmanagement.entity.TaskStatus;
 import com.saipreety.taskmanagement.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -44,5 +46,25 @@ public class TaskController {
     public ResponseEntity<String> delete(@PathVariable Long id){
         service.deleteTask(id);
         return ResponseEntity.status(HttpStatus.OK).body("Task deleted successfully");
+    }
+
+    @GetMapping("/fetch/status/{status}")
+    public ResponseEntity<List<TaskResponseDTO>> getByStatus(@PathVariable TaskStatus status){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getTasksByStatus(status));
+    }
+
+    @GetMapping("/fetch/priority/{priority}")
+    public ResponseEntity<List<TaskResponseDTO>> getByPriority(@PathVariable TaskPriority priority){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getTasksByPriority(priority));
+    }
+
+    @GetMapping("/fetch/project/{projectId}")
+    public ResponseEntity<List<TaskResponseDTO>> getByProjectId(@PathVariable Long projectId){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getTasksByProjectId(projectId));
+    }
+
+    @GetMapping("/fetch/user/{userId}")
+    public ResponseEntity<List<TaskResponseDTO>> getByUserId(@PathVariable Long userId){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getTasksByUser(userId));
     }
 }

@@ -2,9 +2,7 @@ package com.saipreety.taskmanagement.service;
 
 import com.saipreety.taskmanagement.dto.TaskRequestDTO;
 import com.saipreety.taskmanagement.dto.TaskResponseDTO;
-import com.saipreety.taskmanagement.entity.ProjectEntity;
-import com.saipreety.taskmanagement.entity.TaskEntity;
-import com.saipreety.taskmanagement.entity.UserEntity;
+import com.saipreety.taskmanagement.entity.*;
 import com.saipreety.taskmanagement.exception.ProjectNotFoundException;
 import com.saipreety.taskmanagement.exception.TaskNotFoundException;
 import com.saipreety.taskmanagement.exception.UserNotFoundException;
@@ -116,5 +114,42 @@ public class TaskServiceImpl implements TaskService {
                     "Task not found with id: " + id
             );
         }
+    }
+
+    public List<TaskResponseDTO> getTasksByStatus(TaskStatus status){
+        List<TaskEntity> tasks = taskRepository.findByStatus(status);
+        List<TaskResponseDTO> responseList = new ArrayList<>();
+        for (TaskEntity task : tasks) {
+            responseList.add(mapToResponse(task));
+        }
+        return responseList;
+    }
+
+    public List<TaskResponseDTO> getTasksByPriority(TaskPriority priority) {
+        List<TaskEntity> tasks = taskRepository.findByPriority(priority);
+        List<TaskResponseDTO> responseList = new ArrayList<>();
+        for (TaskEntity task : tasks) {
+            responseList.add(mapToResponse(task));
+        }
+        return responseList;
+    }
+
+    public List<TaskResponseDTO> getTasksByProjectId(Long projectId){
+        List<TaskEntity> tasks = taskRepository.findByProjectId(projectId);
+        List<TaskResponseDTO> responseList = new ArrayList<>();
+        for (TaskEntity task : tasks) {
+            responseList.add(mapToResponse(task));
+        }
+        return responseList;
+    }
+
+
+    public List<TaskResponseDTO> getTasksByUser(Long userId) {
+        List<TaskEntity> tasks = taskRepository.findByUserId(userId);
+        List<TaskResponseDTO> responseList = new ArrayList<>();
+        for (TaskEntity task : tasks) {
+            responseList.add(mapToResponse(task));
+        }
+        return responseList;
     }
 }
