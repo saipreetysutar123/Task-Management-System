@@ -102,7 +102,7 @@ Learn
  -@JoinColumn
  -FetchType
  -CascadeType
-📅 Sprint 7 - Authentication & Security
+✅ Sprint 7 - Authentication & Security
 Spring Security
  -Spring Security Basics
  -Password Encryption (BCrypt)
@@ -115,7 +115,7 @@ JWT
 Authorization
  -USER Role
  -ADMIN Role
-📅 Sprint 8 - Advanced Features
+✅ Sprint 8 - Advanced Features
 Search & Filter
  -Search Tasks
  -Filter by Status

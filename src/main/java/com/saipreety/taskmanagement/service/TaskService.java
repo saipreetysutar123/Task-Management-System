@@ -21,7 +21,13 @@ public interface TaskService {
     TaskResponseDTO getTaskById(Long id);
     TaskResponseDTO updateTask(TaskRequestDTO request, Long id);
     void deleteTask(Long id);
-    List<TaskResponseDTO> getTasksByStatus(TaskStatus status);
+    Page<TaskResponseDTO> getTasksByStatus(
+            TaskStatus status,
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    );
     List<TaskResponseDTO> getTasksByPriority(TaskPriority priority);
     List<TaskResponseDTO> getTasksByProjectId(Long projectId);
     List<TaskResponseDTO> getTasksByUser(Long userId);

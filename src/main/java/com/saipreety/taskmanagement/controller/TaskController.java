@@ -54,8 +54,19 @@ public class TaskController {
     }
 
     @GetMapping("/fetch/status/{status}")
-    public ResponseEntity<List<TaskResponseDTO>> getByStatus(@PathVariable TaskStatus status){
-        return ResponseEntity.status(HttpStatus.OK).body(service.getTasksByStatus(status));
+    public ResponseEntity<Page<TaskResponseDTO>> getByStatus(
+            @PathVariable TaskStatus status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getTasksByStatus(
+                status,
+                page,
+                size,
+                sortBy,
+                direction
+        ));
     }
 
     @GetMapping("/fetch/priority/{priority}")

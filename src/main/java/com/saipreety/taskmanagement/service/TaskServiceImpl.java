@@ -128,13 +128,20 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
-    public List<TaskResponseDTO> getTasksByStatus(TaskStatus status){
-        List<TaskEntity> tasks = taskRepository.findByStatus(status);
-        List<TaskResponseDTO> responseList = new ArrayList<>();
-        for (TaskEntity task : tasks) {
-            responseList.add(mapToResponse(task));
-        }
-        return responseList;
+    public Page<TaskResponseDTO> getTasksByStatus(
+            TaskStatus status,
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    ){
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<TaskEntity> tasks = taskRepository.findByStatus(status, pageable);
+
+        return tasks.map(this::mapToResponse);
     }
 
     public List<TaskResponseDTO> getTasksByPriority(TaskPriority priority) {
