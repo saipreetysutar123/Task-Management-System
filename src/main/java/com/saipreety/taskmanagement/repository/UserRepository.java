@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.saipreety.taskmanagement.entity.UserEntity;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-
+    Optional<UserEntity> findByEmail(String email);
 }

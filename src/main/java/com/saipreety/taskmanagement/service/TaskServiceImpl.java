@@ -143,7 +143,6 @@ public class TaskServiceImpl implements TaskService {
         return responseList;
     }
 
-
     public List<TaskResponseDTO> getTasksByUser(Long userId) {
         List<TaskEntity> tasks = taskRepository.findByUserId(userId);
         List<TaskResponseDTO> responseList = new ArrayList<>();

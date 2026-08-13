@@ -8,6 +8,7 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.saipreety.taskmanagement.entity.UserEntity;
 import com.saipreety.taskmanagement.repository.UserRepository;
@@ -23,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UserServiceImpl implements UserService {
 
 	private final UserRepository repository;
+	private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+		this.passwordEncoder = passwordEncoder;
     }
 
     private UserResponseDTO mapToResponse(UserEntity user){
@@ -42,7 +45,7 @@ public class UserServiceImpl implements UserService {
 		UserEntity user = new UserEntity();
 		user.setFullName(request.getFullName());
 		user.setEmail(request.getEmail());
-		user.setPassword(request.getPassword());
+		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		user.setRole(Role.USER);
 		user.setCreatedAt(LocalDateTime.now());
 		UserEntity savedUser = repository.save(user);
@@ -74,7 +77,7 @@ public class UserServiceImpl implements UserService {
 			UserEntity user = userId.get();
 			user.setFullName(request.getFullName());
 			user.setEmail(request.getEmail());
-			user.setPassword(request.getPassword());
+			user.setPassword(passwordEncoder.encode(request.getPassword()));
 			UserEntity savedUser = repository.save(user);
 
 			return mapToResponse(savedUser);

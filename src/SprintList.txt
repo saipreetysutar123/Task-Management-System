@@ -91,7 +91,7 @@ Features
  -Task Status
  -Priority
  -Due Date
-📅 Sprint 6 - Relationships
+✅ Sprint 6 - Relationships
 JPA Relationships
  -User → Projects (One-to-Many)
  -Project → Tasks (One-to-Many)
@@ -178,3 +178,26 @@ API documentation
 Deployment
 
 This is a strong portfolio project and covers many of the topics commonly discussed in Spring Boot interviews for freshers. We'll continue following this roadmap one sprint at a time so that every concept is understood before moving to the next.
+
+//Spring Security(Sprint 7)
+Step 1 → Add Spring Security dependencies
+             ↓
+Step 2 → Understand default Spring Security behavior
+             ↓
+Step 3 → Create PasswordEncoder (BCrypt)
+             ↓
+Step 4 → Encrypt password during registration
+             ↓
+Step 5 → Create UserDetailsService
+             ↓
+Step 6 → Create Login API
+             ↓
+Step 7 → Generate JWT
+             ↓
+Step 8 → JWT filter
+             ↓
+Step 9 → Secure endpoints
+             ↓
+Step 10 → USER / ADMIN authorization
+             ↓
+Step 11 → Test everything in Postman
