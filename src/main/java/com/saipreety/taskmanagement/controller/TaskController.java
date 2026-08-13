@@ -6,10 +6,10 @@ import com.saipreety.taskmanagement.entity.TaskPriority;
 import com.saipreety.taskmanagement.entity.TaskStatus;
 import com.saipreety.taskmanagement.service.TaskService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -28,8 +28,13 @@ public class TaskController {
     }
 
     @GetMapping("/fetchAll")
-    public ResponseEntity<List<TaskResponseDTO>> getAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAllTasks());
+    public ResponseEntity<Page<TaskResponseDTO>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllTasks(page, size, sortBy, direction));
     }
 
     @GetMapping("/fetch/{id}")
@@ -66,5 +71,12 @@ public class TaskController {
     @GetMapping("/fetch/user/{userId}")
     public ResponseEntity<List<TaskResponseDTO>> getByUserId(@PathVariable Long userId){
         return ResponseEntity.status(HttpStatus.OK).body(service.getTasksByUser(userId));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<TaskResponseDTO>> search(
+            @RequestParam String title
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.searchTasksByTitle(title));
     }
 }

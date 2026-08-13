@@ -9,6 +9,10 @@ import com.saipreety.taskmanagement.exception.UserNotFoundException;
 import com.saipreety.taskmanagement.repository.ProjectRepository;
 import com.saipreety.taskmanagement.repository.TaskRepository;
 import com.saipreety.taskmanagement.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -62,13 +66,21 @@ public class TaskServiceImpl implements TaskService {
         return mapToResponse(savedTask);
     }
 
-    public List<TaskResponseDTO> getAllTasks(){
-        List<TaskEntity> tasks = taskRepository.findAll();
-        List<TaskResponseDTO> responseList = new ArrayList<>();
-        for (TaskEntity task : tasks) {
-            responseList.add(mapToResponse(task));
-        }
-        return responseList;
+    public Page<TaskResponseDTO> getAllTasks(
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    ){
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<TaskEntity> tasks = taskRepository.findAll(pageable);
+
+        return tasks.map(this::mapToResponse);
     }
 
     public TaskResponseDTO getTaskById(Long id){
@@ -147,6 +159,15 @@ public class TaskServiceImpl implements TaskService {
         List<TaskEntity> tasks = taskRepository.findByUserId(userId);
         List<TaskResponseDTO> responseList = new ArrayList<>();
         for (TaskEntity task : tasks) {
+            responseList.add(mapToResponse(task));
+        }
+        return responseList;
+    }
+
+    public List<TaskResponseDTO> searchTasksByTitle(String title){
+        List<TaskEntity> tasks = taskRepository.findByTitleContainingIgnoreCase(title);
+        List<TaskResponseDTO> responseList = new ArrayList<>();
+        for(TaskEntity task : tasks) {
             responseList.add(mapToResponse(task));
         }
         return responseList;
