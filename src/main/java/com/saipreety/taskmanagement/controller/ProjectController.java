@@ -3,6 +3,7 @@ package com.saipreety.taskmanagement.controller;
 import com.saipreety.taskmanagement.dto.ProjectRequestDTO;
 import com.saipreety.taskmanagement.dto.ProjectResponseDTO;
 import com.saipreety.taskmanagement.service.ProjectService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/project")
+@SecurityRequirement(name = "bearerAuth")
 public class ProjectController {
 
     private final ProjectService service;

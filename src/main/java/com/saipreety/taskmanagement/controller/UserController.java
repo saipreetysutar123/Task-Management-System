@@ -2,6 +2,7 @@ package com.saipreety.taskmanagement.controller;
 
 import com.saipreety.taskmanagement.dto.UserRequestDTO;
 import com.saipreety.taskmanagement.dto.UserResponseDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@SecurityRequirement(name = "bearerAuth")
 public class UserController {
 	
 	@Autowired

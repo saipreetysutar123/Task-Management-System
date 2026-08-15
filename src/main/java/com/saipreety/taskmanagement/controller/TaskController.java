@@ -5,6 +5,7 @@ import com.saipreety.taskmanagement.dto.TaskResponseDTO;
 import com.saipreety.taskmanagement.entity.TaskPriority;
 import com.saipreety.taskmanagement.entity.TaskStatus;
 import com.saipreety.taskmanagement.service.TaskService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/task")
+@SecurityRequirement(name = "bearerAuth")
 public class TaskController {
 
     private final TaskService service;
