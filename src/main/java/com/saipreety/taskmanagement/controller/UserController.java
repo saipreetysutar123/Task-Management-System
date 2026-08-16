@@ -59,15 +59,3 @@ public class UserController {
 		return service.deleteUser(id);
 	}
 }
-//	@PostMapping("/create")
-//	public ResponseEntity<Object> create(@Valid @RequestBody UserEntity user) {
-//	    System.out.println(user.getFullName());
-//	    System.out.println(user.getEmail());
-//	    System.out.println(user.getPassword());
-//		return service.createUser(user);
-//	}
-
-//	@GetMapping("/fetch")
-//	public ResponseEntity<Object> getAllUser(){
-//		return service.getUsers();
-//	}

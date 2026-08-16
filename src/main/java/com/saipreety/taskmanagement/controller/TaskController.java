@@ -72,24 +72,78 @@ public class TaskController {
     }
 
     @GetMapping("/fetch/priority/{priority}")
-    public ResponseEntity<List<TaskResponseDTO>> getByPriority(@PathVariable TaskPriority priority){
-        return ResponseEntity.status(HttpStatus.OK).body(service.getTasksByPriority(priority));
+    public ResponseEntity<Page<TaskResponseDTO>> getByPriority(
+            @PathVariable TaskPriority priority,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
+        return ResponseEntity.ok(
+                service.getTasksByPriority(
+                        priority,
+                        page,
+                        size,
+                        sortBy,
+                        direction
+                )
+        );
     }
 
     @GetMapping("/fetch/project/{projectId}")
-    public ResponseEntity<List<TaskResponseDTO>> getByProjectId(@PathVariable Long projectId){
-        return ResponseEntity.status(HttpStatus.OK).body(service.getTasksByProjectId(projectId));
+    public ResponseEntity<Page<TaskResponseDTO>> getByProjectId(
+            @PathVariable Long projectId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
+        return ResponseEntity.ok(
+                service.getTasksByProjectId(
+                        projectId,
+                        page,
+                        size,
+                        sortBy,
+                        direction
+                )
+        );
     }
 
     @GetMapping("/fetch/user/{userId}")
-    public ResponseEntity<List<TaskResponseDTO>> getByUserId(@PathVariable Long userId){
-        return ResponseEntity.status(HttpStatus.OK).body(service.getTasksByUser(userId));
+    public ResponseEntity<Page<TaskResponseDTO>> getByUser(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
+        return ResponseEntity.ok(
+                service.getTasksByUser(
+                        userId,
+                        page,
+                        size,
+                        sortBy,
+                        direction
+                )
+        );
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<TaskResponseDTO>> search(
-            @RequestParam String title
+    public ResponseEntity<Page<TaskResponseDTO>> searchTasks(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.searchTasksByTitle(title));
+        return ResponseEntity.ok(
+                service.searchTasks(
+                        keyword,
+                        page,
+                        size,
+                        sortBy,
+                        direction
+                )
+        );
     }
 }

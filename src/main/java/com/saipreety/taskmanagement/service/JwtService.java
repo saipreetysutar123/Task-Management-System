@@ -28,14 +28,12 @@ public class JwtService {
     }
 
     private SecretKey getKey() {
-
         return Keys.hmacShaKeyFor(
                 Decoders.BASE64.decode(secretKey)
         );
     }
 
     public String extractUsername(String token) {
-
         return Jwts.parser()
                 .verifyWith(getKey())
                 .build()
@@ -45,15 +43,12 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-
         String username = extractUsername(token);
-
         return username.equals(userDetails.getUsername())
                 && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
-
         return Jwts.parser()
                 .verifyWith(getKey())
                 .build()

@@ -6,6 +6,7 @@ import com.saipreety.taskmanagement.entity.TaskEntity;
 import com.saipreety.taskmanagement.entity.TaskPriority;
 import com.saipreety.taskmanagement.entity.TaskStatus;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -28,8 +29,32 @@ public interface TaskService {
             String sortBy,
             String direction
     );
-    List<TaskResponseDTO> getTasksByPriority(TaskPriority priority);
-    List<TaskResponseDTO> getTasksByProjectId(Long projectId);
-    List<TaskResponseDTO> getTasksByUser(Long userId);
-    List<TaskResponseDTO> searchTasksByTitle(String title);
+    Page<TaskResponseDTO> getTasksByPriority(
+            TaskPriority priority,
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    );
+    Page<TaskResponseDTO> getTasksByProjectId(
+            Long projectId,
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    );
+    Page<TaskResponseDTO> getTasksByUser(
+            Long userId,
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    );
+    Page<TaskResponseDTO> searchTasks(
+            String keyword,
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    );
 }

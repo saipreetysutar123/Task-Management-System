@@ -30,5 +30,4 @@ public class ProjectEntity {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
-
 }

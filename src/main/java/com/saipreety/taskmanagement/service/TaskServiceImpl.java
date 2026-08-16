@@ -9,6 +9,7 @@ import com.saipreety.taskmanagement.exception.UserNotFoundException;
 import com.saipreety.taskmanagement.repository.ProjectRepository;
 import com.saipreety.taskmanagement.repository.TaskRepository;
 import com.saipreety.taskmanagement.repository.UserRepository;
+import com.saipreety.taskmanagement.util.PaginationValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +35,21 @@ public class TaskServiceImpl implements TaskService {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
         this.projectRepository = projectRepository;
+    }
+
+    private boolean isValidSortField(String sortBy) {
+
+        return switch (sortBy) {
+            case "id",
+                 "title",
+                 "description",
+                 "status",
+                 "priority",
+                 "createdAt",
+                 "dueDate" -> true;
+
+            default -> false;
+        };
     }
 
     private TaskResponseDTO mapToResponse(TaskEntity task){
@@ -72,6 +88,7 @@ public class TaskServiceImpl implements TaskService {
             String sortBy,
             String direction
     ){
+        PaginationValidator.validate(page, size);
         Sort sort = direction.equalsIgnoreCase("desc")
                 ? Sort.by(sortBy).descending()
                 : Sort.by(sortBy).ascending();
@@ -135,6 +152,22 @@ public class TaskServiceImpl implements TaskService {
             String sortBy,
             String direction
     ){
+        PaginationValidator.validate(page, size);
+
+        if (!isValidSortField(sortBy)) {
+            throw new IllegalArgumentException(
+                    "Invalid sort field: " + sortBy
+            );
+        }
+
+        if (!direction.equalsIgnoreCase("asc")
+                && !direction.equalsIgnoreCase("desc")) {
+
+            throw new IllegalArgumentException(
+                    "Invalid sort direction: " + direction
+            );
+        }
+
         Sort sort = direction.equalsIgnoreCase("desc")
                 ? Sort.by(sortBy).descending()
                 : Sort.by(sortBy).ascending();
@@ -144,39 +177,142 @@ public class TaskServiceImpl implements TaskService {
         return tasks.map(this::mapToResponse);
     }
 
-    public List<TaskResponseDTO> getTasksByPriority(TaskPriority priority) {
-        List<TaskEntity> tasks = taskRepository.findByPriority(priority);
-        List<TaskResponseDTO> responseList = new ArrayList<>();
-        for (TaskEntity task : tasks) {
-            responseList.add(mapToResponse(task));
+    public Page<TaskResponseDTO> getTasksByPriority(
+            TaskPriority priority,
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    ) {
+        PaginationValidator.validate(page, size);
+        if (!isValidSortField(sortBy)) {
+            throw new IllegalArgumentException(
+                    "Invalid sort field: " + sortBy
+            );
         }
-        return responseList;
+
+        if (!direction.equalsIgnoreCase("asc")
+                && !direction.equalsIgnoreCase("desc")) {
+
+            throw new IllegalArgumentException(
+                    "Invalid sort direction: " + direction
+            );
+        }
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<TaskEntity> tasks =
+                taskRepository.findByPriority(priority, pageable);
+
+        return tasks.map(this::mapToResponse);
     }
 
-    public List<TaskResponseDTO> getTasksByProjectId(Long projectId){
-        List<TaskEntity> tasks = taskRepository.findByProjectId(projectId);
-        List<TaskResponseDTO> responseList = new ArrayList<>();
-        for (TaskEntity task : tasks) {
-            responseList.add(mapToResponse(task));
+    public Page<TaskResponseDTO> getTasksByProjectId(
+            Long projectId,
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    ) {
+        PaginationValidator.validate(page, size);
+        if (!isValidSortField(sortBy)) {
+            throw new IllegalArgumentException(
+                    "Invalid sort field: " + sortBy
+            );
         }
-        return responseList;
+
+        if (!direction.equalsIgnoreCase("asc")
+                && !direction.equalsIgnoreCase("desc")) {
+
+            throw new IllegalArgumentException(
+                    "Invalid sort direction: " + direction
+            );
+        }
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<TaskEntity> tasks =
+                taskRepository.findByProjectId(projectId, pageable);
+
+        return tasks.map(this::mapToResponse);
     }
 
-    public List<TaskResponseDTO> getTasksByUser(Long userId) {
-        List<TaskEntity> tasks = taskRepository.findByUserId(userId);
-        List<TaskResponseDTO> responseList = new ArrayList<>();
-        for (TaskEntity task : tasks) {
-            responseList.add(mapToResponse(task));
+    public Page<TaskResponseDTO> getTasksByUser(
+            Long userId,
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    ) {
+        PaginationValidator.validate(page, size);
+        if (!isValidSortField(sortBy)) {
+            throw new IllegalArgumentException(
+                    "Invalid sort field: " + sortBy
+            );
         }
-        return responseList;
+
+        if (!direction.equalsIgnoreCase("asc")
+                && !direction.equalsIgnoreCase("desc")) {
+
+            throw new IllegalArgumentException(
+                    "Invalid sort direction: " + direction
+            );
+        }
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<TaskEntity> tasks =
+                taskRepository.findByUserId(userId, pageable);
+
+        return tasks.map(this::mapToResponse);
     }
 
-    public List<TaskResponseDTO> searchTasksByTitle(String title){
-        List<TaskEntity> tasks = taskRepository.findByTitleContainingIgnoreCase(title);
-        List<TaskResponseDTO> responseList = new ArrayList<>();
-        for(TaskEntity task : tasks) {
-            responseList.add(mapToResponse(task));
+    public Page<TaskResponseDTO> searchTasks(
+            String keyword,
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    ) {
+        PaginationValidator.validate(page, size);
+        if (!isValidSortField(sortBy)) {
+            throw new IllegalArgumentException(
+                    "Invalid sort field: " + sortBy
+            );
         }
-        return responseList;
+
+        if (!direction.equalsIgnoreCase("asc")
+                && !direction.equalsIgnoreCase("desc")) {
+
+            throw new IllegalArgumentException(
+                    "Invalid sort direction: " + direction
+            );
+        }
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<TaskEntity> tasks =
+                taskRepository.findByTitleContainingIgnoreCase(
+                        keyword,
+                        pageable
+                );
+
+        return tasks.map(this::mapToResponse);
     }
 }
