@@ -124,7 +124,7 @@ Pagination & Sorting
  -Pagination
  -Sorting
  -Custom Queries
-📅 Sprint 9 - Documentation & Testing
+✅ Sprint 9 - Documentation & Testing
 Swagger
  -OpenAPI Configuration
  -Swagger UI
