@@ -34,3 +34,5 @@ build/
 
 ### dotENV File ###
 .env
+
+*.pem
