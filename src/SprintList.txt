@@ -131,7 +131,7 @@ Swagger
 Testing
  -Unit Testing
  -Integration Testing
-📅 Sprint 10 - Deployment
+✅ Sprint 10 - Deployment
 Database
  -MySQL Production Configuration
 Deployment
